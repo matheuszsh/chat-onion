@@ -13,7 +13,7 @@ cipher = Fernet(SHARED_KEY.encode())
 
 # VAR
 HOST = "0.0.0.0"
-PORT = 80
+PORT = 9001
 
 stop_thread = threading.Event()
 

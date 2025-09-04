@@ -2,7 +2,6 @@ import customtkinter as ctk
 from tkinter import messagebox
 from clientApi import ClientApi
 
-
 class LoginInterface(ctk.CTk):
     def __init__(self):
         super().__init__()
@@ -34,7 +33,7 @@ class LoginInterface(ctk.CTk):
         self.entry_nick.grid(row=1, column=0, padx=20, pady=10, sticky="ew")
 
         # Entrada de Endereço
-        self.entry_host = ctk.CTkEntry(frame, placeholder_text="Endereço de conexão")
+        self.entry_host = ctk.CTkEntry(frame, placeholder_text="Endereço de conexão onion")
         self.entry_host.grid(row=2, column=0, padx=20, pady=10, sticky="ew")
 
         # Botão de Login
