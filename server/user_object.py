@@ -1,7 +1,6 @@
-
 class User:
-    def __init__(self, clientObj=None, nickname=None, message=None):
-        self.clientObj = clientObj
+    def __init__(self, conn=None, nickname=None, message=None):
+        self.conn = conn
         self.nickname = nickname
         self.message = message
 

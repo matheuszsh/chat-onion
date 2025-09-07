@@ -127,10 +127,13 @@ class ChatInterface(ctk.CTk):
 
     def _send_message(self):
         text = self.entry.get().strip()
-        self.clientObj.send_client_msg(text)
-        if text:
-            self._add_message(text, sender="user")
-            self.entry.delete(0, "end")
+        try:
+            self.clientObj.send_client_msg(text)
+            if text:
+                self._add_message(text, sender="user")
+                self.entry.delete(0, "end")
+        except ConnectionError as e:
+            print(f"Erro: {e}") 
 
     def _receive_message(self, msg: str):
         """Chamado pelo ChatClient quando chega mensagem"""

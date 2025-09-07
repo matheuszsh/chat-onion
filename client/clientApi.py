@@ -5,8 +5,10 @@ from sys import exit
 from cryptography.fernet import Fernet
 from dotenv import load_dotenv
 import os
+import dynamicSendRecv as sr
 
 load_dotenv() # carrega as variaveis de ambiente
+
 
 class ClientApi():
     def __init__(self, callback=None):
@@ -22,7 +24,7 @@ class ClientApi():
             self.client.set_proxy(socks.SOCKS5,"127.0.0.1", 9050)
             self.client.connect((server, 9001))
             encrypted_nick = self.cipher.encrypt(nick.encode())
-            self.client.send(encrypted_nick)
+            sr.send_msg(self.client, encrypted_nick)
 
         except:
             return False
@@ -34,12 +36,15 @@ class ClientApi():
     def recv_server_msg(self):
         while not self.stop_thread.is_set():
             try:
-                server_msg = self.cipher.decrypt(self.client.recv(1024)).decode("utf-8")
+                server_msg = self.cipher.decrypt(sr.recv_msg(self.client)).decode("utf-8")
                 if self.on_message_callback:
                     self.on_message_callback(server_msg)
-            except:
+            except ConnectionError:
+                no_response = "The server is offline."
+                if self.on_message_callback:
+                    self.on_message_callback(no_response)
                 break
 
     def send_client_msg(self, text_msg):
             encrypted_msg = self.cipher.encrypt(text_msg.encode())
-            self.client.send(encrypted_msg)
+            sr.send_msg(self.client, encrypted_msg)
